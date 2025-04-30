@@ -1,0 +1,59 @@
+using System;
+using System.Collections.Generic;
+
+namespace GestionBiblioteca
+{
+    class Libro
+    {
+        public string Titulo { get; set; }
+        public string Autor { get; set; }
+
+        public Libro(string titulo, string autor)
+        {
+            Titulo = titulo;
+            Autor = autor;
+        }
+
+        public override string ToString()
+        {
+            return $"📖 \"{Titulo}\" por {Autor}";
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Libro> listaLibros = new List<Libro>();
+            Dictionary<string, Libro> diccionarioLibros = new Dictionary<string, Libro>();
+            Queue<string> colaPrestamos = new Queue<string>();
+
+            // Agregamos libros a la lista y diccionario
+            listaLibros.Add(new Libro("Cien años de soledad", "Gabriel García Márquez"));
+            listaLibros.Add(new Libro("El principito", "Antoine de Saint-Exupéry"));
+            listaLibros.Add(new Libro("1984", "George Orwell"));
+
+            foreach (var libro in listaLibros)
+            {
+                diccionarioLibros[libro.Titulo.ToLower()] = libro;
+            }
+
+            Console.WriteLine("=== Libros en la Biblioteca ===");
+            foreach (var libro in listaLibros)
+            {
+                Console.WriteLine(libro);
+            }
+
+            Console.WriteLine("\n=== Buscar un libro por título ===");
+            Console.Write("Ingrese el título del libro a buscar: ");
+            string tituloBuscado = Console.ReadLine().ToLower();
+
+            if (diccionarioLibros.ContainsKey(tituloBuscado))
+            {
+                Console.WriteLine("Libro encontrado: " + diccionarioLibros[tituloBuscado]);
+                Console.Write("¿Desea solicitarlo en préstamo? (s/n): ");
+                if (Console.ReadLine().ToLower() == "s")
+                {
+                    Console.Write("Ingrese su nombre: ");
+                    string nombre = Console.ReadLine();
+                    colaPrest
