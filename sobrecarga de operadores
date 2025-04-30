@@ -1,0 +1,24 @@
+class Punto:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    # Sobrecarga del operador +
+    def __add__(self, otro):
+        return Punto(self.x + otro.x, self.y + otro.y)
+
+    # Representación en forma de cadena para imprimir el punto
+    def __str__(self):
+        return f"({self.x}, {self.y})"
+
+# Crear dos puntos
+punto1 = Punto(2, 3)
+punto2 = Punto(4, 5)
+
+# Sumar los puntos usando la sobrecarga del operador +
+resultado = punto1 + punto2
+
+# Mostrar el resultado
+print(f"Punto 1: {punto1}")
+print(f"Punto 2: {punto2}")
+print(f"Resultado de la suma: {resultado}")
