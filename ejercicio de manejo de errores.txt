@@ -1,0 +1,92 @@
+using System;
+using System.Collections.Generic;
+
+namespace PracticaSobrecargaErroresColecciones
+{
+    class Producto
+    {
+        public string Nombre { get; set; }
+        public double Precio { get; set; }
+
+        // Constructor por defecto
+        public Producto()
+        {
+            Nombre = "Sin nombre";
+            Precio = 0;
+        }
+
+        // Constructor sobrecargado 1
+        public Producto(string nombre)
+        {
+            Nombre = nombre;
+            Precio = 0;
+        }
+
+        // Constructor sobrecargado 2
+        public Producto(string nombre, double precio)
+        {
+            Nombre = nombre;
+            Precio = precio;
+        }
+
+        public override string ToString()
+        {
+            return $"Producto: {Nombre} - Precio: S/ {Precio:F2}";
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Producto> listaProductos = new List<Producto>();
+            bool continuar = true;
+
+            Console.WriteLine("=== Registro de Productos ===");
+
+            while (continuar)
+            {
+                try
+                {
+                    Console.Write("Ingrese el nombre del producto: ");
+                    string nombre = Console.ReadLine();
+
+                    Console.Write("Ingrese el precio del producto: ");
+                    string entrada = Console.ReadLine();
+
+                    if (string.IsNullOrWhiteSpace(nombre))
+                        throw new ArgumentException("El nombre no puede estar vacío.");
+
+                    if (!double.TryParse(entrada, out double precio))
+                        throw new FormatException("Precio inválido. Debe ser un número.");
+
+                    Producto nuevoProducto = new Producto(nombre, precio);
+                    listaProductos.Add(nuevoProducto);
+                    Console.WriteLine("Producto registrado correctamente.\n");
+
+                    Console.Write("¿Desea ingresar otro producto? (s/n): ");
+                    string opcion = Console.ReadLine().ToLower();
+                    continuar = (opcion == "s");
+                }
+                catch (FormatException ex)
+                {
+                    Console.WriteLine($"Error de formato: {ex.Message}\n");
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine($"Error de argumento: {ex.Message}\n");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ocurrió un error inesperado: {ex.Message}\n");
+                }
+            }
+
+            Console.WriteLine("\n=== Lista de Productos Registrados ===");
+            foreach (var prod in listaProductos)
+            {
+                Console.WriteLine(prod);
+            }
+        }
+    }
+}
